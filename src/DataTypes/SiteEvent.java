@@ -1,5 +1,7 @@
 package DataTypes;
 
-public class SiteEvent {
+public class SiteEvent extends Event {
 
+	
+	
 }
