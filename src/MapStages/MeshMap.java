@@ -52,17 +52,27 @@ public class MeshMap {
 		}
 
 		/*
-		 * TODO Use fortune's algorithm to generate the Voronois of every site Put the
-		 * Voronois into a useful data structure
+		 * TODO Use fortune's algorithm to generate the Voronois 
 		 */
 		
-		int sweepLineY = 0;
+		// put all the sites in a nicely indexed array
 		
-		while (this.eventQueue.getLength() > 0) {
-			
-			
-			
-		}
+		/*while siteEventQueue not empty
+		 * 
+		 * 		look for intersections before next site
+		 * 				
+		 * 			recursive function to keep finding soonest intersection event and then process them in order
+		 * 					
+		 * 				process intersection events by adding a vertex to the correct two voronois
+		 * 
+		 * 		when processing site
+		 * 
+		 * 			add new parabola in the correct place on the beach line
+		 * 
+		 */
+		
+		// draw the polygons that have been produced
+		
 
 	}
 
