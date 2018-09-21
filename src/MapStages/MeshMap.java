@@ -4,13 +4,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import DataTypes.EventQueue;
+import DataTypes.Polygon;
 import DataTypes.SiteEvent;
+import DataTypes.Vertex;
 import MainProgram.StaticFunctions;
+import MainProgram.Window;
 
 public class MeshMap {
+	
+	private Polygon[] polyMap; // array of all the polyogns in the map 
+	private int[][] adjacencies; // adjacency matrix 
 
 	private EventQueue eventQueue;
+	
+	private ArrayList<Integer[]> getRidOfThisVarLater;
 
 	public MeshMap(int xSize, int ySize, int numSites) { // args are settings that relate the number of sites. Later,
 															// args may include number of Lloyd relaxations.
@@ -44,8 +54,12 @@ public class MeshMap {
 			}
 
 		}
-			
-		this.eventQueue = new EventQueue (sites.size());
+		
+		this.getRidOfThisVarLater= sites;
+		
+		
+		
+		/*this.eventQueue = new EventQueue (sites.size());
 		
 		for (int i = 0; i < sites.size(); i++) {
 			this.eventQueue.enQueue(new SiteEvent(sites.get(i)[0], ));
@@ -73,7 +87,29 @@ public class MeshMap {
 		
 		// draw the polygons that have been produced
 		
+		
 
+	}
+	
+	public void drawSites (Window window) {
+		this.polyMap = new Polygon[0];
+		Polygon[] mapBuffer;
+		ArrayList<Vertex> bufferList;
+		for (int i = 0; i < getRidOfThisVarLater.size() - 1; i++) {
+			mapBuffer = new Polygon[this.polyMap.length + 1];
+			for (int j = 0; j < polyMap.length; j++) {
+				mapBuffer[j] = this.polyMap[j];
+			}bufferList = new ArrayList();
+			bufferList.add(new Vertex(new Vector3f(getRidOfThisVarLater.get(i)[0], getRidOfThisVarLater.get(i)[1], 0)));
+			bufferList.add(new Vertex(new Vector3f(getRidOfThisVarLater.get(i)[0] - 1, getRidOfThisVarLater.get(i)[1] - 1, 0)));
+			
+			mapBuffer[mapBuffer.length - 1] = new Polygon(bufferList);
+			this.polyMap = mapBuffer;
+		}
+		
+		for (int i = 0; i < this.polyMap.length; i++) {
+			this.polyMap[i].render(window, new Vector3f(1,1,1));
+		}
 	}
 
 }

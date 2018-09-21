@@ -1,11 +1,26 @@
 package MainProgram;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_LEQUAL;
+import static org.lwjgl.opengl.GL11.GL_NICEST;
+import static org.lwjgl.opengl.GL11.GL_PERSPECTIVE_CORRECTION_HINT;
+import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_SMOOTH;
+import static org.lwjgl.opengl.GL11.glClearDepth;
+import static org.lwjgl.opengl.GL11.glDepthFunc;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glHint;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glOrtho;
+import static org.lwjgl.opengl.GL11.glShadeModel;
+import static org.lwjgl.opengl.GL11.glTranslatef;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
@@ -14,41 +29,61 @@ public class Window {
 	private int WIDTH;
 	private int HEIGHT;
 	private String title;
-	
-	public Window (int width, int height, String Title) {
-		
-		this.WIDTH = width;
-		this.HEIGHT = height;
-		this.title = Title;
-		
+
+	public Window(int wIDTH, int hEIGHT, String title) {
+		WIDTH = wIDTH;
+		HEIGHT = hEIGHT;
+		this.title = title;
 		try {
-			
 			Display.setDisplayMode(new DisplayMode(this.WIDTH, this.HEIGHT));
 			Display.setTitle(this.title);
 			Display.create();
 			glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 			glDisable(GL_LIGHTING);
-			
-		}catch (LWJGLException e) {
-			
+		} catch (LWJGLException e) {
 			e.printStackTrace();
-			System.out.println("Could not initialise display for some hitherto unknown reason.");
-			
+			System.out.println("Display could not be initialised");
 		}
-		
+
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, Display.getWidth(), 0, Display.getHeight(), 0, 1);
-		glTranslatef(0.0f, 0.0f, 0.0f);
 		
+		glOrtho(0, Display.getWidth(), 0, Display.getHeight(), 0, 1);
+
+		/*
+		GL11.glMatrixMode(GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GLU.gluPerspective(1, Display.getWidth()/Display.getHeight(), -100, 100);
+		GL11.glMatrixMode(GL_MODELVIEW);
+		GL11.glLoadIdentity();
+		*/
+		
+		//perspectiveGL();
+
+		glTranslatef(0.0f, 0.0f, 0.0f);
+
 		glClearDepth(100.0f);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
 		glShadeModel(GL_SMOOTH);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+	}
+
+	// Replaces gluPerspective. Sets the frustum to perspective mode.
+	// fov - Field of vision in degrees in the y direction
+	// aspect - Aspect ratio of the viewport
+	// zNear - The near clipping distance
+	// zFar - The far clipping distance
+	private static void perspectiveGL() {
+		float near = -100;
+		float far = 100;
+		float fov = 1; // change to 0.866 later
+		float aspect = Display.getWidth()/Display.getHeight();
+		glFrustum (-aspect*near*fov, aspect*near*fov, -fov, fov, near, far);
 		
 	}
-	
+
 	public void beginRender() {
 		GL11.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		GL11.glBegin(GL_TRIANGLES);
