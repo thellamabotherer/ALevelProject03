@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import DataTypes.BeachLineElement;
+import DataTypes.Event;
 import DataTypes.EventQueue;
 import DataTypes.SiteEvent;
 import MainProgram.StaticFunctions;
@@ -48,7 +50,7 @@ public class MeshMap {
 		this.eventQueue = new EventQueue (sites.size());
 		
 		for (int i = 0; i < sites.size(); i++) {
-			this.eventQueue.enQueue(new SiteEvent(sites.get(i)[0], ));
+			this.eventQueue.enQueue(new SiteEvent(sites.get(i)[0], sites.get(i)[1]));
 		}
 
 		/*
@@ -57,10 +59,22 @@ public class MeshMap {
 		 */
 		
 		int sweepLineY = 0;
+		int beachIndex;
+		
+		// I plan to put this data in a more useful form later on but I want proof of concept now
+		ArrayList<BeachLineElement> beachLine = new ArrayList();
 		
 		while (this.eventQueue.getLength() > 0) {
 			
+			Event nextEvent = this.eventQueue.deQueue();
 			
+			if (nextEvent.type()) { // event is a site event
+				
+				
+				
+			}else { // event is a vertex event
+				
+			}
 			
 		}
 

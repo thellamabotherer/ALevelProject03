@@ -1,6 +1,6 @@
 package DataTypes;
 
-public class Parabola {
+public class Parabola extends BeachLineElement {
 
 	
 	
